@@ -1,25 +1,21 @@
 defmodule SurfacePlaygroundWeb.Counter do
-  use Surface.LiveView
+  use Phoenix.LiveView
 
-  data count, :integer, default: 0
+  def mount(_, _, socket) do
+    {:ok, assign(socket, :count, 0)}
+  end
 
   def render(assigns) do
-    ~F"""
-    <div class="container">
-      <h1 class="title">Counter</h1>
-      <p>
-        {@count}
-      </p>
-      <p>
-        <button class="button if-info" :on-click="increment">
-          count
-        </button>
-      </p>
+    ~H"""
+    <div class = "container">
+      <h1 class = "title">Counter</h1>
+      <label id="counter"><%= @count %></label>
+      <button phx-click="count" id="count">Add 1</button>
     </div>
     """
   end
 
-  def handle_event("increment", _, socket) do
-    {:noreply, update(socket, :count, &(&1 + 1))}
+  def handle_event("count", _value, socket) do
+    {:noreply, update(socket, :count, fn count -> count + 1 end)}
   end
 end

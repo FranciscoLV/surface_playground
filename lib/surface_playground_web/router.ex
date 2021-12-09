@@ -4,24 +4,24 @@ defmodule SurfacePlaygroundWeb.Router do
   import Surface.Catalogue.Router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {SurfacePlaygroundWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {SurfacePlaygroundWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", SurfacePlaygroundWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    get "/", PageController, :index
-    live "/demo", Demo
-    live "/counter", Counter
+    get("/", PageController, :index)
+    live("/demo", Demo)
+    live("/counter", Counter)
   end
 
   # Other scopes may use custom stacks.
@@ -40,9 +40,9 @@ defmodule SurfacePlaygroundWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: SurfacePlaygroundWeb.Telemetry
+      live_dashboard("/dashboard", metrics: SurfacePlaygroundWeb.Telemetry)
     end
   end
 
@@ -52,15 +52,15 @@ defmodule SurfacePlaygroundWeb.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 
   if Mix.env() == :dev do
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
       surface_catalogue("/catalogue")
     end
   end
