@@ -22,6 +22,7 @@ defmodule SurfacePlaygroundWeb.Router do
     get("/", PageController, :index)
     live("/demo", Demo)
     live("/counter", Counter)
+    live("/temperature", Temperature)
   end
 
   # Other scopes may use custom stacks.
