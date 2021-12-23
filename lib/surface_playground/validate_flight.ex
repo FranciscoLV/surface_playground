@@ -30,12 +30,13 @@ defmodule SurfacePlayground.ValidateFlight do
 
   def validate_round_trip(flight, params \\ %{"flight_type" => "round trip"}) do
     flight
-    |> cast(params, required_fields())
+    |> cast(params, required_fields() ++ other_fields())
     |> validate_required(required_fields() ++ other_fields())
     |> validate_inclusion(:flight_type, ["round trip"])
+    |> validate_dates()
   end
 
-  def validate_dates(changeset) do
+  defp validate_dates(changeset) do
     departure = get_field(changeset, :departure)
     return = get_field(changeset, :return)
 
