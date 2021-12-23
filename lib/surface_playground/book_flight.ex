@@ -27,7 +27,7 @@ defmodule SurfacePlayground.BookFlight do
 
   defp get_message(flight) do
     case flight.flight_type do
-      "one_way flight" ->
+      "one-way flight" ->
         "You have booked a one-way flight on #{flight.departure}"
 
       "round trip" ->

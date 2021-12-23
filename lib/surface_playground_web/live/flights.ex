@@ -43,7 +43,7 @@ defmodule SurfacePlaygroundWeb.Flights do
     """
   end
 
-  def handle_event("validate", %{"flight" => params}, socket) do
+  def handle_event("validate", %{"validate_flight" => params}, socket) do
     changeset = BookFlight.booking_change(socket.assigns.changeset, params)
 
     socket
@@ -51,7 +51,7 @@ defmodule SurfacePlaygroundWeb.Flights do
     |> noreply()
   end
 
-  def handle_event("book", %{"flight" => params}, socket) do
+  def handle_event("book", %{"validate_flight" => params}, socket) do
     {:ok, message} =
       socket.assigns.changeset
       |> BookFlight.booking_change(params)
