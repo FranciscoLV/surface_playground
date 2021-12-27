@@ -24,6 +24,7 @@ defmodule SurfacePlaygroundWeb.Router do
     live("/counter", Counter)
     live("/temperature", Temperature)
     live("/flights", Flights)
+    live("/timer", Timer)
   end
 
   # Other scopes may use custom stacks.
