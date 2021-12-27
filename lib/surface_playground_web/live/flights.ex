@@ -20,7 +20,7 @@ defmodule SurfacePlaygroundWeb.Flights do
 
   def render(assigns) do
     ~F"""
-      <h1>Book Flight</h1>
+      <h1 class = "title">Book Flight</h1>
       <Form for={@changeset} submit="book" change="validate" opts={id: "flight-booker"}>
         <Field name={:flight_type}>
           <Select options={@flight_type} opts={id: "flight_type"}/>
@@ -76,5 +76,3 @@ defmodule SurfacePlaygroundWeb.Flights do
 end
 
 # Invalid dates should be highlighted in red.
-# The submit button should be disabled whenever something is invalid.
-# Upon submission, the user should get a confirmation message with the booking dates.

@@ -1,17 +1,22 @@
 defmodule SurfacePlaygroundWeb.Counter do
-  use Phoenix.LiveView
+  use Surface.LiveView,
+    layout: {SurfacePlaygroundWeb.LayoutView, "live.html"}
+
+  alias Surface.Components.Form
+  alias Surface.Components.Form.Label
+  alias Surface.Components.Form.Submit
 
   def mount(_, _, socket) do
     {:ok, assign(socket, :count, 0)}
   end
 
   def render(assigns) do
-    ~H"""
-    <div class = "container">
-      <h1 class = "title">Counter</h1>
-      <label id="counter"><%= @count %></label>
-      <button phx-click="count" id="count">Add 1</button>
-    </div>
+    ~F"""
+    <Form for={:counter} submit="count">
+      <h1>Counter</h1>
+      <Label text={@count} />
+      <Submit label="Add 1"/>
+    </Form>
     """
   end
 
