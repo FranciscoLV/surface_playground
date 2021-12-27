@@ -1,29 +1,36 @@
 defmodule SurfacePlaygroundWeb.Temperature do
-  use Phoenix.LiveView
+  use Surface.LiveView,
+    layout: {SurfacePlaygroundWeb.LayoutView, "live.html"}
 
   alias SurfacePlayground.Temperature
+  alias Surface.Components.Form
+  alias Surface.Components.Form.Label
+  alias Surface.Components.Form.Field
+  alias Surface.Components.Form.TextInput
 
   def mount(_, _, socket) do
     {:ok, assign(socket, %{celsius: 0, farenheit: 32})}
   end
 
   def render(assigns) do
-    ~H"""
-    <div class = "container">
-      <h1 class = "title">Temperature Converter</h1>
-      <form phx-change="celsius-change" action="#" id="celsius">
-        <label id="celsius">Celsius</label>
-        <input type="number" name="celsius" value={@celsius} />
-      </form>
-      <form phx-change="farenheit-change" action="#" id="farenheit">
-        <label id="farenheit">Farenheit</label>
-        <input type="number" name="farenheit" value={@farenheit} />
-      </form>
-    </div>
+    ~F"""
+    <h1 class = "title">Temperature Converter</h1>
+    <Form for={:celsiustemp} change="celsius-change">
+      <Field name={:celsius}>
+        <Label text="Celsius"/>
+        <TextInput value={@celsius}/>
+      </Field>
+    </Form>
+    <Form for={:farenheittemp} change="farenheit-change">
+      <Field name={:farenheit}>
+        <Label text="Farenheit"/>
+        <TextInput value={@farenheit}/>
+      </Field>
+    </Form>
     """
   end
 
-  def handle_event("celsius-change", %{"celsius" => temp}, socket) do
+  def handle_event("celsius-change", %{"celsiustemp" => %{"celsius" => temp}}, socket) do
     case Float.parse(temp) do
       {celsius, ""} ->
         farenheit = Temperature.from_c_to_f(celsius)
@@ -35,7 +42,7 @@ defmodule SurfacePlaygroundWeb.Temperature do
     end
   end
 
-  def handle_event("farenheit-change", %{"farenheit" => temp}, socket) do
+  def handle_event("farenheit-change", %{"farenheittemp" => %{"farenheit" => temp}}, socket) do
     case Float.parse(temp) do
       {farenheit, ""} ->
         celsius = Temperature.from_f_to_c(farenheit)
