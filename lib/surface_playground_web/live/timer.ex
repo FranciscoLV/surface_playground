@@ -23,19 +23,48 @@ defmodule SurfacePlaygroundWeb.Timer do
     </div>
     <Field name="slider">
       <Label>Duration: </Label>
-      <Slider type="range" name="duration-slider" opts={min: "0", max: "100", step: "1"}/>
+      <Slider/>
     </Field>
     <Field name="reset">
-      <Button to="#" label="reset"/>
+      <Button to="#" label="reset" id="reset" method={nil} opts={type: "button", phx_click: "reset"}/>
     </Field>
 
     """
   end
 
+  @spec mount(any, any, map) :: {:ok, Phoenix.LiveView.Socket.t()}
+  def mount(_, _, socket) do
+    if connected?(socket), do: start_timer()
+
+    {:ok, socket}
+  end
+
+  def handle_info(:tick, socket) do
+    timer = socket.assigns.timer
+    range = socket.assigns.range
+
+    if timer < range do
+      socket
+      |> update(:timer, fn seconds -> seconds + 1 end)
+      |> noreply()
+    else
+      noreply(socket)
+    end
+  end
+
+  def handle_event("reset", _, socket) do
+    socket
+    |> assign(:timer, 0)
+    |> noreply()
+  end
+
+  defp start_timer() do
+    :timer.send_interval(1_000, :tick)
+  end
+
+  defp noreply(socket), do: {:noreply, socket}
   # We must have a gauge for the elapsed time.
-  # We must have a label that shows the elapsed time as a number.
   # We must have a slider that can change the duration of the timer.
   # Changing the slider should immediately cause the elapsed time gauge to change.
   # When the elapsed time is greater than or equal to the duration (when the gauge is full), the timer should stop. If we then move the slider to increase the duration, the timer should resume.
-  # Finally, we should have a reset button that resets the elapsed time to zero.
 end
