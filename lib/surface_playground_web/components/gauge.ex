@@ -9,9 +9,15 @@ defmodule SurfacePlaygroundWeb.Components.Gauge do
   @doc "The name"
   prop name, :any
 
+  @doc "ID of the gauge"
+  prop id, :string
+
+  @doc "Extra options for the gauge"
+  prop opts, :keyword, default: []
+
   def render(assigns) do
     ~F"""
-    <meter/>
+    <meter id={@id} name={@name} :attrs={@opts}/>
     """
   end
 end

@@ -15,8 +15,8 @@ defmodule SurfacePlaygroundWeb.Timer do
     ~F"""
     <h1 class = "title">Timer</h1>
     <Field name="gauge">
-      <Label>Elapsed Time:</Label>
-      <Gauge/>
+      <Label>Elapsed Time: </Label>
+      <Gauge opts={min: 0, value: @timer, max: @range}/>
     </Field>
     <div>
       {@timer} s
@@ -63,7 +63,6 @@ defmodule SurfacePlaygroundWeb.Timer do
   end
 
   defp noreply(socket), do: {:noreply, socket}
-  # We must have a gauge for the elapsed time.
   # We must have a slider that can change the duration of the timer.
   # Changing the slider should immediately cause the elapsed time gauge to change.
   # When the elapsed time is greater than or equal to the duration (when the gauge is full), the timer should stop. If we then move the slider to increase the duration, the timer should resume.
