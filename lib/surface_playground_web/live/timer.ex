@@ -32,7 +32,6 @@ defmodule SurfacePlaygroundWeb.Timer do
     """
   end
 
-  @spec mount(any, any, map) :: {:ok, Phoenix.LiveView.Socket.t()}
   def mount(_, _, socket) do
     if connected?(socket), do: start_timer()
 
