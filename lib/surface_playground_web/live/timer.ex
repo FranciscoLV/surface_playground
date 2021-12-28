@@ -9,7 +9,7 @@ defmodule SurfacePlaygroundWeb.Timer do
   alias SurfacePlaygroundWeb.Components.Slider
 
   data timer, :integer, default: 0
-  data range, :integer, default: 5
+  data range, :integer, default: 25
 
   def render(assigns) do
     ~F"""
@@ -23,7 +23,7 @@ defmodule SurfacePlaygroundWeb.Timer do
     </div>
     <Field name="slider">
       <Label>Duration: </Label>
-      <Slider/>
+      <Slider type="range" id="max-range" opts={min: 0, max: 50}/>
     </Field>
     <Field name="reset">
       <Button to="#" label="reset" id="reset" method={nil} opts={type: "button", phx_click: "reset"}/>
@@ -58,12 +58,15 @@ defmodule SurfacePlaygroundWeb.Timer do
     |> noreply()
   end
 
+  def handle_event("update-range", %{"value" => value}, socket) do
+    socket
+    |> assign(:range, String.to_integer(value))
+    |> noreply()
+  end
+
   defp start_timer() do
     :timer.send_interval(1_000, :tick)
   end
 
   defp noreply(socket), do: {:noreply, socket}
-  # We must have a slider that can change the duration of the timer.
-  # Changing the slider should immediately cause the elapsed time gauge to change.
-  # When the elapsed time is greater than or equal to the duration (when the gauge is full), the timer should stop. If we then move the slider to increase the duration, the timer should resume.
 end
